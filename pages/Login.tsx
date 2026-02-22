@@ -7,7 +7,7 @@ import { loginUser, registerUser, loginWithGoogle, loginWithGithub, sendPassword
 import { useGoogleLogin } from '@react-oauth/google';
 
 interface LoginProps {
-  onLogin: (user: { name: string; email: string; university: string; semester: string }) => void;
+  onLogin: (user: { name: string; email: string; university: string; semester: string }) => void | Promise<void>;
 }
 
 const Login: React.FC<LoginProps> = ({ onLogin }) => {
@@ -46,7 +46,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
       setGithubLoading(true);
       setError(null);
       const user = await loginWithGithub(code);
-      onLogin({
+      await onLogin({
         email: user.email,
         name: user.name,
         university: user.university,
@@ -67,7 +67,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
         setError(null);
         // Send the Google access token to our backend for verification
         const user = await loginWithGoogle(undefined, tokenResponse.access_token);
-        onLogin({
+        await onLogin({
           email: user.email,
           name: user.name,
           university: user.university,
@@ -91,7 +91,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     if (isLogin) {
       try {
         const user = await loginUser({ email: formData.email, password: formData.password });
-        onLogin({
+        await onLogin({
           email: user.email,
           name: user.name,
           university: user.university,
