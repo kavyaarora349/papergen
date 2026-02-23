@@ -223,8 +223,8 @@ app.post('/api/auth/google', async (req, res) => {
         // 2. Check if user exists, if not, create them (UPSERT)
         // Since we don't have a password, we leave it null. The normal login route prevents null password logins.
         const query = `
-            INSERT INTO users (email, name, university, semester, theme)
-            VALUES ($1, $2, 'REVA University', '1', 'Dark')
+            INSERT INTO users (id, email, name, university, semester, theme)
+            VALUES ($1, $1, $2, 'REVA University', '1', 'Dark')
             ON CONFLICT (email) DO UPDATE 
             SET name = EXCLUDED.name
             RETURNING *;
@@ -299,8 +299,8 @@ app.post('/api/auth/github', async (req, res) => {
 
         // 4. UPSERT into Database
         const query = `
-            INSERT INTO users (email, name, university, semester, theme)
-            VALUES ($1, $2, 'REVA University', '1', 'Dark')
+            INSERT INTO users (id, email, name, university, semester, theme)
+            VALUES ($1, $1, $2, 'REVA University', '1', 'Dark')
             ON CONFLICT (email) DO UPDATE 
             SET name = EXCLUDED.name
             RETURNING *;
