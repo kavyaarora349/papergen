@@ -239,7 +239,7 @@ app.post('/api/auth/google', async (req, res) => {
 
     } catch (error) {
         console.error('[AUTH] Google login error:', error);
-        res.status(500).json({ error: 'Internal server error during Google login' });
+        res.status(500).json({ error: `Google login error: ${error.message}` });
     }
 });
 
@@ -315,7 +315,7 @@ app.post('/api/auth/github', async (req, res) => {
 
     } catch (error) {
         console.error('[AUTH] GitHub login error:', error);
-        res.status(500).json({ error: 'Internal server error during GitHub login' });
+        res.status(500).json({ error: `GitHub login error: ${error.message}` });
     }
 });
 
